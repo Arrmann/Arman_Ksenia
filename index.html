@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Арман & Ксюша — Наша история</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5.0.8/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.0.8/index.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --rose: #e8a5b5;
+    --rose-deep: #c97b8e;
+    --cream: #fdf6f0;
+    --cream-dark: #f5e6dc;
+    --gold: #d4a574;
+    --text: #3a2e2e;
+    --text-soft: #6b5b5b;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+  h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+  .cursive { font-family: 'Cormorant Garamond', serif; }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(253, 246, 240, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201, 123, 142, 0.15);
+  }
+  nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--rose-deep);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  nav ul { display: flex; gap: 2rem; list-style: none; }
+  nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+  }
+  nav a:hover { color: var(--rose-deep); }
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--rose-deep);
+    transition: width 0.3s;
+  }
+  nav a:hover::after { width: 100%; }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(232, 165, 181, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(212, 165, 116, 0.25) 0%, transparent 50%),
+      linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+  }
+  .hero .pretitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--text-soft);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+  .hero h1 {
+    font-size: clamp(3rem, 10vw, 7rem);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+  .hero h1 .amp {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--rose-deep);
+    font-size: 0.7em;
+    margin: 0 0.3em;
+  }
+  .hero .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--text-soft);
+    margin: 1.5rem 0 3rem;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+    max-width: 600px;
+  }
+  .counter-box {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(232, 165, 181, 0.4);
+    padding: 2rem 3rem;
+    border-radius: 20px;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+  .counter-box .label {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    margin-bottom: 1rem;
+  }
+  .counter { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+  .counter .unit { text-align: center; }
+  .counter .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--rose-deep);
+    line-height: 1;
+    font-weight: 500;
+  }
+  .counter .unit-name {
+    font-size: 0.75rem;
+    color: var(--text-soft);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-soft);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+  }
+
+  section { padding: 6rem 2rem; position: relative; }
+  .section-header { text-align: center; margin-bottom: 4rem; }
+  .section-header .tag {
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    margin-bottom: 1rem;
+  }
+  .section-header h2 {
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .section-header p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--text-soft);
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .story { background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 100%); }
+  .timeline { max-width: 900px; margin: 0 auto; position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--rose), transparent);
+    transform: translateX(-50%);
+  }
+  .story-item {
+    display: flex;
+    margin-bottom: 4rem;
+    position: relative;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease;
+  }
+  .story-item.visible { opacity: 1; transform: translateY(0); }
+  .story-item:nth-child(odd) { justify-content: flex-start; }
+  .story-item:nth-child(even) { justify-content: flex-end; }
+  .story-card {
+    width: 45%;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(232, 165, 181, 0.3);
+    padding: 2rem;
+    border-radius: 16px;
+  }
+  .story-dot {
+    position: absolute;
+    left: 50%; top: 2rem;
+    width: 14px; height: 14px;
+    background: var(--rose-deep);
+    border: 3px solid var(--cream);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 0 4px rgba(201, 123, 142, 0.2);
+    z-index: 2;
+  }
+  .story-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--rose-deep);
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+  }
+  .story-card h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+    color: var(--text);
+  }
+  .story-card p {
+    color: var(--text-soft);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .story-emoji { font-size: 2rem; margin-bottom: 0.5rem; }
+
+  .gallery { background: var(--cream); }
+  .gallery-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .gallery-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+  .gallery-item.visible { opacity: 1; transform: translateY(0); }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .gallery-item:hover img { transform: scale(1.08); }
+  .gallery-item img.bright { filter: brightness(1.7) saturate(1.15); }
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(58, 46, 46, 0.7) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay .date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    opacity: 0.9;
+  }
+  .gallery-overlay .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-top: 0.3rem;
+  }
+
+  .calendar-section { background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%); }
+  .calendar-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(232, 165, 181, 0.3);
+    border-radius: 24px;
+    padding: 2.5rem;
+  }
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  .calendar-header h3 { font-size: 1.6rem; font-weight: 500; }
+  .calendar-nav { display: flex; gap: 0.5rem; }
+  .calendar-nav button {
+    background: rgba(232, 165, 181, 0.2);
+    border: none;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--rose-deep);
+    transition: all 0.3s;
+  }
+  .calendar-nav button:hover { background: var(--rose); color: white; }
+  .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
+  .calendar-weekdays div {
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+  }
+  .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.3rem;
+  }
+  .calendar-days div {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .calendar-days div:hover:not(.empty) { background: rgba(232, 165, 181, 0.2); }
+  .calendar-days div.today {
+    background: var(--rose);
+    color: white;
+    font-weight: 600;
+  }
+  .calendar-days div.event {
+    background: var(--rose-deep);
+    color: white;
+    font-weight: 600;
+  }
+  .calendar-days div.event::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  .calendar-days div.empty { cursor: default; }
+
+  .events-list {
+    margin-top: 2rem;
+    border-top: 1px solid rgba(232, 165, 181, 0.3);
+    padding-top: 1.5rem;
+  }
+  .events-list h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--text-soft);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+  .event-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px dashed rgba(232, 165, 181, 0.3);
+  }
+  .event-item:last-child { border-bottom: none; }
+  .event-date-badge {
+    background: var(--rose);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 70px;
+    text-align: center;
+  }
+  .event-desc { flex: 1; color: var(--text); font-size: 0.95rem; }
+
+  .quotes { background: var(--cream); text-align: center; }
+  .quotes-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+  .quote-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(232, 165, 181, 0.3);
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+  .quote-card.visible { opacity: 1; transform: translateY(0); }
+  .quote-icon { font-size: 2rem; color: var(--rose); margin-bottom: 1rem; }
+  .quote-card blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  .quote-card cite {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  footer {
+    background: var(--text);
+    color: var(--cream);
+    text-align: center;
+    padding: 3rem 2rem;
+  }
+  footer .hearts {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+  }
+  footer p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+  }
+  footer .small {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    letter-spacing: 2px;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
+  .petal {
+    position: fixed;
+    top: -20px;
+    width: 15px; height: 15px;
+    background: radial-gradient(circle, var(--rose) 0%, transparent 70%);
+    border-radius: 50% 0 50% 50%;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 50;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+  }
+
+  @media (max-width: 768px) {
+    nav ul { gap: 1rem; }
+    nav a { font-size: 0.8rem; }
+    .timeline::before { left: 20px; }
+    .story-item { justify-content: flex-end !important; }
+    .story-card { width: 80%; margin-left: auto !important; margin-right: 0 !important; }
+    .story-dot { left: 20px; }
+    .counter .num { font-size: 2.2rem; }
+    .counter-box { padding: 1.5rem; }
+    .calendar-wrap { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">А & К</div>
+  <ul>
+    <li><a href="#story">История</a></li>
+    <li><a href="#gallery">Альбом</a></li>
+    <li><a href="#calendar">Календарь</a></li>
+    <li><a href="#quotes">Моменты</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="pretitle">Наша история любви</div>
+  <h1>Арман <span class="amp">&</span> Ксюша</h1>
+  <div class="subtitle">«Она пришла за работой — а забрала моё сердце»</div>
+  <div class="counter-box">
+    <div class="label">Вместе уже</div>
+    <div class="counter" id="counter">
+      <div class="unit"><div class="num" id="days">0</div><div class="unit-name">дней</div></div>
+      <div class="unit"><div class="num" id="hours">0</div><div class="unit-name">часов</div></div>
+      <div class="unit"><div class="num" id="minutes">0</div><div class="unit-name">минут</div></div>
+      <div class="unit"><div class="num" id="seconds">0</div><div class="unit-name">секунд</div></div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ листай вниз</div>
+</section>
+
+<section class="story" id="story">
+  <div class="section-header">
+    <div class="tag">Наша история</div>
+    <h2>Как всё начиналось</h2>
+    <p>От собеседования до бесконечности</p>
+  </div>
+  <div class="timeline">
+    <div class="story-item">
+      <div class="story-dot"></div>
+      <div class="story-card">
+        <div class="story-emoji">💼</div>
+        <div class="story-date">СЕНТЯБРЬ 2025</div>
+        <h3>Она пришла на работу</h3>
+        <p>Ксюша пришла устраиваться в компанию, где я уже работал. Первое, что я заметил — её улыбку и то, как она волновалась перед собеседованием. Я понял: эта девушка мне понравится.</p>
+      </div>
+    </div>
+    <div class="story-item">
+      <div class="story-dot"></div>
+      <div class="story-card">
+        <div class="story-emoji">📚</div>
+        <div class="story-date">СЕНТЯБРЬ — ОКТЯБРЬ 2025</div>
+        <h3>Я стал её наставником</h3>
+        <p>Её взяли на работу, и мне поручили её обучать. Каждый день мы сидели рядом, я объяснял задачи, показывал процессы. А потом понял, что объясняю всё медленнее — просто чтобы дольше быть рядом.</p>
+      </div>
+    </div>
+    <div class="story-item">
+      <div class="story-dot"></div>
+      <div class="story-card">
+        <div class="story-emoji">☕</div>
+        <div class="story-date">ОКТЯБРЬ 2025</div>
+        <h3>Кофе-брейки, которые длились часами</h3>
+        <p>«Пойдём на пять минут» превращалось в «ой, уже час». Мы болтали обо всём: о детстве, мечтах, любимых фильмах. Коллеги уже начали догадываться раньше нас самих.</p>
+      </div>
+    </div>
+    <div class="story-item">
+      <div class="story-dot"></div>
+      <div class="story-card">
+        <div class="story-emoji">🍷</div>
+        <div class="story-date">НОЯБРЬ 2025</div>
+        <h3>Первое свидание</h3>
+        <p>Моя квартира, бутылка вина, два бокала и телевизор. Мы смотрели «Беременна в 16» — и, кажется, это было самое нелепое и самое уютное свидание в моей жизни. Мы смеялись до слёз над каждой серией.</p>
+      </div>
+    </div>
+    <div class="story-item">
+      <div class="story-dot"></div>
+      <div class="story-card">
+        <div class="story-emoji">🎄</div>
+        <div class="story-date">ДЕКАБРЬ 2025</div>
+        <h3>Первый Новый Год вместе</h3>
+        <p>Гирлянды, мандарины, оливье и обещание встречать каждый Новый Год только вдвоём. В полночь я понял, что хочу, чтобы таких ночей было бесконечно много.</p>
+      </div>
+    </div>
+    <div class="story-item">
+      <div class="story-dot"></div>
+      <div class="story-card">
+        <div class="story-emoji">💕</div>
+        <div class="story-date">2026 — НАСТОЯЩЕЕ ВРЕМЯ</div>
+        <h3>И это только начало</h3>
+        <p>Сегодня мы — больше, чем коллеги, больше, чем пара. Мы — команда, лучшие друзья и самая родная друг для друга люди. И впереди у нас ещё целая жизнь.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="section-header">
+    <div class="tag">Альбом воспоминаний</div>
+    <h2>Моменты, которые мы храним</h2>
+    <p>От первого взгляда — до сегодня</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <img src="images/start.jpg" alt="Как всё начиналось">
+      <div class="gallery-overlay">
+        <div>
+          <div class="date">СЕНТЯБРЬ 2025</div>
+          <div class="title">Как всё начиналось</div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/photo1.jpg" class="bright" alt="Самые тёплые объятия">
+      <div class="gallery-overlay">
+        <div>
+          <div class="date">2026</div>
+          <div class="title">Самые тёплые объятия</div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/photo2.jpg" class="bright" alt="Всегда вместе">
+      <div class="gallery-overlay">
+        <div>
+          <div class="date">2026</div>
+          <div class="title">Всегда вместе</div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/photo3.jpg" class="bright" alt="Руки, которые держат">
+      <div class="gallery-overlay">
+        <div>
+          <div class="date">2026</div>
+          <div class="title">Руки, которые держат</div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/photo4.jpg" alt="Прогулка в белых рубашках">
+      <div class="gallery-overlay">
+        <div>
+          <div class="date">ЛЕТО 2026</div>
+          <div class="title">Прогулка в белых рубашках</div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/photo5.jpg" alt="Наше лето у бассейна">
+      <div class="gallery-overlay">
+        <div>
+          <div class="date">ЛЕТО 2026</div>
+          <div class="title">Наше лето у бассейна</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="calendar-section" id="calendar">
+  <div class="section-header">
+    <div class="tag">Важные даты</div>
+    <h2>Наш календарь</h2>
+    <p>Дни, которые мы никогда не забудем</p>
+  </div>
+  <div class="calendar-wrap">
+    <div class="calendar-header">
+      <h3 id="calendarTitle"></h3>
+      <div class="calendar-nav">
+        <button id="prevMonth">‹</button>
+        <button id="nextMonth">›</button>
+      </div>
+    </div>
+    <div class="calendar-weekdays">
+      <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
+    </div>
+    <div class="calendar-days" id="calendarDays"></div>
+    <div class="events-list">
+      <h4>СОБЫТИЯ МЕСЯЦА</h4>
+      <div id="eventsList"></div>
+    </div>
+  </div>
+</section>
+
+<section class="quotes" id="quotes">
+  <div class="section-header">
+    <div class="tag">Признания</div>
+    <h2>Слова, которые мы говорим</h2>
+    <p>Маленькие признания в большой любви</p>
+  </div>
+  <div class="quotes-grid">
+    <div class="quote-card">
+      <div class="quote-icon">❝</div>
+      <blockquote>Ты пришла ко мне на работу — а я даже не подозревал, что это самое важное собеседование в моей жизни.</blockquote>
+      <cite>— Арман</cite>
+    </div>
+    <div class="quote-card">
+      <div class="quote-icon">❝</div>
+      <blockquote>Помнишь, как мы смотрели «Беременна в 16» и смеялись до коликов в животе? Это было лучшее первое свидание на свете.</blockquote>
+      <cite>— Ксюша</cite>
+    </div>
+    <div class="quote-card">
+      <div class="quote-icon">❝</div>
+      <blockquote>Я учил тебя работать, а ты научила меня любить. И это самый честный обмен в моей жизни.</blockquote>
+      <cite>— Арман</cite>
+    </div>
+    <div class="quote-card">
+      <div class="quote-icon">❝</div>
+      <blockquote>Я пришла за работой. А нашла тебя. И это, пожалуй, самая удачная карьерная история в моей жизни.</blockquote>
+      <cite>— Ксюша</cite>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="hearts">💕</div>
+  <p>Арман & Ксюша</p>
+  <p>От коллег — к навсегда</p>
+  <div class="small">С ЛЮБОВЬЮ · СЕНТЯБРЬ 2025 — ∞</div>
+</footer>
+
+<script>
+  // Counter — с сентября 2025
+  const startDate = new Date('2025-09-01T10:00:00');
+  function updateCounter() {
+    const now = new Date();
+    const diff = Math.max(0, now - startDate);
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = hours;
+    document.getElementById('minutes').textContent = minutes;
+    document.getElementById('seconds').textContent = seconds;
+  }
+  updateCounter();
+  setInterval(updateCounter, 1000);
+
+  // Calendar
+  const events = [
+    { month: 8, day: 1, name: 'Ксюша пришла на работу', emoji: '💼' },
+    { month: 8, day: 15, name: 'Первый день обучения', emoji: '📚' },
+    { month: 9, day: 10, name: 'Кофе-брейк на два часа', emoji: '☕' },
+    { month: 10, day: 14, name: 'Первое свидание: «Беременна в 16»', emoji: '🍷' },
+    { month: 11, day: 31, name: 'Новый Год вместе', emoji: '🎄' },
+    { month: 1, day: 14, name: 'Первый День влюблённых', emoji: '' },
+    { month: 2, day: 8, name: 'Международный женский день', emoji: '🌷' },
+    { month: 4, day: 9, name: 'День Победы', emoji: '🎖️' },
+    { month: 8, day: 1, name: 'Годовщина знакомства', emoji: '💼' },
+    { month: 10, day: 14, name: 'Годовщина первого свидания', emoji: '🍷' }
+  ];
+
+  const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+  let currentMonth = new Date().getMonth();
+  let currentYear = new Date().getFullYear();
+
+  function renderCalendar() {
+    const title = document.getElementById('calendarTitle');
+    const daysContainer = document.getElementById('calendarDays');
+    title.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    daysContainer.innerHTML = '';
+
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    const lastDay = new Date(currentYear, currentMonth + 1, 0);
+    const startWeekday = (firstDay.getDay() + 6) % 7;
+
+    for (let i = 0; i < startWeekday; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      daysContainer.appendChild(empty);
+    }
+
+    const today = new Date();
+    for (let d = 1; d <= lastDay.getDate(); d++) {
+      const cell = document.createElement('div');
+      cell.textContent = d;
+      const event = events.find(e => e.month === currentMonth && e.day === d);
+      if (event) cell.classList.add('event');
+      else if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+        cell.classList.add('today');
+      }
+      if (event) {
+        cell.title = event.name;
+        cell.style.cursor = 'pointer';
+      }
+      daysContainer.appendChild(cell);
+    }
+
+    const eventsList = document.getElementById('eventsList');
+    eventsList.innerHTML = '';
+    const currentMonthEvents = events.filter(e => e.month === currentMonth).sort((a, b) => a.day - b.day);
+    if (currentMonthEvents.length === 0) {
+      eventsList.innerHTML = '<div class="event-item"><div class="event-desc" style="opacity:0.5">В этом месяце нет особых дат</div></div>';
+    } else {
+      currentMonthEvents.forEach(e => {
+        const item = document.createElement('div');
+        item.className = 'event-item';
+        item.innerHTML = `
+          <div class="event-date-badge">${e.day} ${monthNames[e.month].slice(0,3)}</div>
+          <div class="event-desc">${e.emoji} ${e.name}</div>
+        `;
+        eventsList.appendChild(item);
+      });
+    }
+  }
+
+  document.getElementById('prevMonth').addEventListener('click', () => {
+    currentMonth--;
+    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    renderCalendar();
+  });
+  document.getElementById('nextMonth').addEventListener('click', () => {
+    currentMonth++;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    renderCalendar();
+  });
+  renderCalendar();
+
+  // Intersection Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.story-item, .gallery-item, .quote-card').forEach(el => observer.observe(el));
+
+  // Falling petals
+  function createPetal() {
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+    petal.style.left = Math.random() * 100 + 'vw';
+    petal.style.animationDuration = (8 + Math.random() * 6) + 's';
+    petal.style.animationDelay = Math.random() * 2 + 's';
+    const size = (10 + Math.random() * 10) + 'px';
+    petal.style.width = size;
+    petal.style.height = size;
+    document.body.appendChild(petal);
+    setTimeout(() => petal.remove(), 15000);
+  }
+  setInterval(createPetal, 800);
+</script>
+
+</body>
+</html>
